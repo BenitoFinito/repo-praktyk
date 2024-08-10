@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Bf109DiveTrigger : MonoBehaviour
 {
+    public AudioSource source;
+    public AudioClip clip1;
+    public AudioClip clip2;
     public Animator animator;
     public GameObject player;
     public GameObject parent;
@@ -17,16 +20,16 @@ public class Bf109DiveTrigger : MonoBehaviour
         {
             playerCollisionHandler = player.GetComponent<PlayerCollisionHandler>();
         }
-        else
-        {
-            Debug.LogError("Player GameObject not assigned.");
-        }
+
     }
 
     void Update()
     {
         if (!stop && playerCollisionHandler != null && playerCollisionHandler.handlingCollision)
         {
+            source.PlayOneShot(clip1);
+            source.PlayOneShot(clip2);
+
             pozycja = player.transform.position.y;
             parent.transform.position = new Vector3(-10, pozycja, 10);
             animator.SetTrigger("Death");

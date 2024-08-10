@@ -7,6 +7,7 @@ public class PlayerCollisionHandler : MonoBehaviour
     private Rigidbody rb;
     public bool handlingCollision = false;
     private CameraClamp cameraClamp;
+    private Collider playerCollider;
 
     void Start()
     {
@@ -14,6 +15,7 @@ public class PlayerCollisionHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         cameraClamp = FindObjectOfType<CameraClamp>();
+        playerCollider = GetComponent<Collider>();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -37,12 +39,15 @@ public class PlayerCollisionHandler : MonoBehaviour
 
             rb.useGravity = true;
 
+            playerCollider.enabled = false;
+
             FlingPlayer();
 
             StartCoroutine(HandleCollision());
         }
 
     }
+
 
     private IEnumerator HandleCollision()
     {
@@ -54,6 +59,8 @@ public class PlayerCollisionHandler : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         transform.position = new Vector3(-10, 0, -5);
         transform.rotation = Quaternion.identity;
+
+        playerCollider.enabled = true;
 
         movementScript.enabled = true;
 
