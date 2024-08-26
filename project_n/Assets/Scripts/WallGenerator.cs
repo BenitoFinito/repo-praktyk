@@ -8,7 +8,7 @@ public class WallGenerator : MonoBehaviour
 {
     [SerializeField]
     //GameObject[] coins;
-    GameObject coinObject;
+    GameObject dangerObject;
 
     [SerializeField]
     float spawnInterval = 1f;
@@ -16,25 +16,12 @@ public class WallGenerator : MonoBehaviour
     [SerializeField]
     GameObject endPoint;
 
+    CoinGeneratorScript coinGenScript = new CoinGeneratorScript();
+
     [SerializeField]
     float speed = 1.5f;
 
-    [System.Serializable]
-    public struct coinPath
-    {
-        public float fromY;
-        public float toY;
-        public int step;
-
-        public coinPath(float fromY, float toY, int step)
-        {
-            this.fromY = fromY;
-            this.toY = toY;
-            this.step = step;
-        }
-    }
-
-    public List<coinPath> pathValues = new List<coinPath> 
+    public List<CoinGeneratorScript.coinPath> pathValues; /*new List<coinPath> 
     {
         new coinPath(0,5,5),
         new coinPath(0,-5,5),
@@ -46,7 +33,7 @@ public class WallGenerator : MonoBehaviour
         new coinPath(30,-30,5),
         new coinPath(-30,0,5),
         new coinPath(5,-5,5),
-    };
+    };*/
 
     //Only for read the results of coinPath list
     [SerializeField]
@@ -57,6 +44,7 @@ public class WallGenerator : MonoBehaviour
 
     void Start()
     {
+        pathValues = coinGenScript.pathValues;
         startPos = transform.position;
         startPos.z = -4;
         Invoke("AttemptSpawn", spawnInterval);
@@ -70,10 +58,10 @@ public class WallGenerator : MonoBehaviour
 
         if(currentIndex % 10 == 0){
             
-        GameObject coin = Instantiate(coinObject);
-        coin.name = coinObject.name;
+        GameObject coin = Instantiate(dangerObject);
+        coin.name = dangerObject.name;
 
-        float startY = startPos.y + ScaleYValue(posY);
+        float startY = startPos.y + posY;
         coin.transform.position = new Vector3(startPos.x, startY, startPos.z);
 
         coin.transform.localScale = new Vector3(5f, 5f, 10f);
@@ -101,7 +89,7 @@ public class WallGenerator : MonoBehaviour
         Invoke("AttemptSpawn", spawnInterval);
     }
 
-    float ScaleYValue(float value)
+    /*float ScaleYValue(float value)
     {
         // rescale from range [-60, 60] to [-18, 18]
         return (value / 60) * 18;

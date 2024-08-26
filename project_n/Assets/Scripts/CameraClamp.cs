@@ -15,7 +15,7 @@ public class CameraClamp : MonoBehaviour
     {
         Vector3 targetPosition = new Vector3(
             Mathf.Clamp(targetToFollow.position.x, -4f, 0f),
-            Mathf.Clamp(targetToFollow.position.y, -11f, 11f),
+            Mathf.Clamp(targetToFollow.position.y, -48f, 48f),
             transform.position.z);
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);

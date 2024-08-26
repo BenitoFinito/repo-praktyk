@@ -8,14 +8,28 @@ public class PlayerCollisionHandler : MonoBehaviour
     public bool handlingCollision = false;
     private CameraClamp cameraClamp;
     private Collider playerCollider;
+    private Renderer[] renderers;
+    public float blinkInterval = 0.5f;
+
+    public PointsHUD pointHUD;
+
+    /*public GameObject prefab;        // The prefab to spawn
+    public float flingForce = 10f;  // The force applied to fling the prefabs downwards
+    private Vector2 position;
+    private float positionY;*/
 
     void Start()
     {
-        movementScript = GetComponent<Movement>();
+        //movementScript = GetComponent<Movement>();
         rb = GetComponent<Rigidbody>();
 
-        cameraClamp = FindObjectOfType<CameraClamp>();
+        //rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+
+        renderers = GetComponentsInChildren<Renderer>();
+
+        //cameraClamp = FindObjectOfType<CameraClamp>();
         playerCollider = GetComponent<Collider>();
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -30,20 +44,41 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             handlingCollision = true;
 
-            movementScript.enabled = false;
+            pointHUD.Points -= 20;
 
-            if (cameraClamp != null)
-            {
-                cameraClamp.enabled = false;
-            }
+            //movementScript.enabled = false;
 
-            rb.useGravity = true;
+            //if (cameraClamp != null)
+            //{
+            //    cameraClamp.enabled = false;
+            //}
+
+            //rb.useGravity = true;
 
             playerCollider.enabled = false;
 
-            FlingPlayer();
+            //FlingPlayer();
+
+            /*for (int i = 0; i < 10; i++)
+            {
+                // Instantiate the prefab at the spawn position with no rotation
+                positionY = transform.position.y - 3;
+                position = new Vector2(transform.position.x, positionY);
+                GameObject spawnedObject = Instantiate(prefab, position, Quaternion.identity);
+
+                // Apply a downward force to fling the object downwards
+                Rigidbody2D rb = spawnedObject.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.AddForce(Vector2.down * flingForce);
+                }
+
+                // Destroy the prefab after a certain time
+                Destroy(spawnedObject, 5);
+            }*/
 
             StartCoroutine(HandleCollision());
+
         }
 
     }
@@ -51,28 +86,50 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private IEnumerator HandleCollision()
     {
-        yield return new WaitForSeconds(3);
 
-        rb.useGravity = false;
+        for (int i = 0; i < 6; i++){
 
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        transform.position = new Vector3(-10, 0, -5);
-        transform.rotation = Quaternion.identity;
+                foreach (Renderer renderer in renderers){
+
+                    renderer.enabled = !renderer.enabled;
+
+                    rb.angularVelocity = Vector3.zero;
+                    transform.rotation = Quaternion.identity;
+            
+                }
+
+                yield return new WaitForSeconds(blinkInterval);
+
+            }
+
+        //rb.useGravity = false;
+
+        //rb.velocity = Vector3.zero;
+        //rb.angularVelocity = Vector3.zero;
+        //transform.position = new Vector3(-10, 0, -5);
+        //transform.rotation = Quaternion.identity;
 
         playerCollider.enabled = true;
 
-        movementScript.enabled = true;
+        //movementScript.enabled = true;
 
-        if (cameraClamp != null)
-        {
-            cameraClamp.enabled = true;
+        //if (cameraClamp != null)
+        //{
+        //    cameraClamp.enabled = true;
+        //}
+
+        foreach (Renderer renderer in renderers){
+
+            renderer.enabled = true;
+
         }
+
+        
 
         handlingCollision = false;
     }
 
-        private void FlingPlayer()
+        /*private void FlingPlayer()
     {
         Vector3 flingDirection = Random.onUnitSphere;
         flingDirection.y = Mathf.Abs(flingDirection.y);
@@ -84,6 +141,6 @@ public class PlayerCollisionHandler : MonoBehaviour
 
         float torqueForce = 5f;
         rb.AddTorque(torqueAxis * torqueForce, ForceMode.Impulse);
-    }
+    }*/
 
 }

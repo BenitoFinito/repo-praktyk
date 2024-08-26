@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloudScript : MonoBehaviour
+public class LuchtballonScript : MonoBehaviour
 {
-
     private float speed;
     private float endPosX;
 
@@ -15,11 +14,11 @@ public class CloudScript : MonoBehaviour
     }
     void Update()
     {
-        transform.Translate(Vector3.left * (Time.deltaTime * speed));
+        transform.position += Vector3.left * (Time.deltaTime * speed);
 
-        if(transform.position.x < endPosX)
-        { 
-           Destroy(gameObject);
+        if (transform.position.x < endPosX)
+        {
+            Destroy(gameObject);
         }
     }
 }

@@ -8,13 +8,15 @@ public class HouseGeneratorScript : MonoBehaviour
     GameObject[] houses;
 
     [SerializeField]
-    float spawnInterval = 2.5f;
+    float spawnInterval = 1f;
 
     [SerializeField]
     GameObject endPoint;
 
     [SerializeField]
     float speed = 1.44f;
+
+    public float rangePositive = 0f, rangeNegative = 2f;
 
     Vector3 startPos;
     void Start()
@@ -30,7 +32,7 @@ public class HouseGeneratorScript : MonoBehaviour
         GameObject house = Instantiate(houses[randomIndex]);
         house.name = houses[randomIndex].name;
 
-        float startY = Random.Range(startPos.y - 1.5f, startPos.y);
+        float startY = Random.Range(startPos.y - rangeNegative, startPos.y + rangePositive);
         house.transform.position = new Vector3(startPos.x, startY, startPos.z);
 
         house.GetComponent<HouseScript>().StartMoving(speed, endPoint.transform.position.x);

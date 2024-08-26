@@ -18,6 +18,8 @@ public class StarGeneratorScript : MonoBehaviour
     float speed = 1f;
     float previousStartY = 0;
 
+    public float rangePositive = 18f, rangeNegative = 18f;
+
     Vector3 startPos;
     void Start()
     {
@@ -32,7 +34,7 @@ public class StarGeneratorScript : MonoBehaviour
         GameObject star = Instantiate(stars[randomIndex]);
         star.name = stars[randomIndex].name;
 
-        float startY = Random.Range(startPos.y - 3.5f, startPos.y + 2f);
+        float startY = Random.Range(startPos.y - rangeNegative, startPos.y + rangePositive);
         if(previousStartY != 0)
         { 
             if(startY <  previousStartY + 1f && startY >= previousStartY) 

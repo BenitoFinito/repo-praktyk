@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         rb.velocity = new Vector2(0, verticalInput * speed);
 
-        float clampedY = Mathf.Clamp(transform.position.y, -18f, 18f);
+        float clampedY = Mathf.Clamp(transform.position.y, -60f, 60f);
         transform.position = new Vector2(transform.position.x, clampedY);
 
         if (rb.velocity.y > 0)

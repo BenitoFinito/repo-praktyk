@@ -36,8 +36,8 @@ public class CoinGeneratorScript : MonoBehaviour
 
     public List<coinPath> pathValues = new List<coinPath> 
     {
-        new coinPath(0,5,5),
-        new coinPath(0,-5,5),
+        new coinPath(0,2,2),
+        new coinPath(0,-2,2),
         new coinPath(0,5,5),
         new coinPath(0,-5,5),
         new coinPath(0,30,5),
@@ -70,7 +70,7 @@ public class CoinGeneratorScript : MonoBehaviour
         GameObject coin = Instantiate(coinObject);
         coin.name = coinObject.name;
 
-        float startY = startPos.y + ScaleYValue(posY);
+        float startY = startPos.y + posY;
         coin.transform.position = new Vector3(startPos.x, startY, startPos.z);
 
         coin.transform.localScale = new Vector2(5f, 5f);
@@ -97,6 +97,7 @@ public class CoinGeneratorScript : MonoBehaviour
         Invoke("AttemptSpawn", spawnInterval);
     }
 
+    /*
     float ScaleYValue(float value)
     {
         // rescale from range [-60, 60] to [-18, 18]
