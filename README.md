@@ -1,2 +1,2 @@
 # Praktyki
-nie
+Projekty gier na urządzenie medyczne
